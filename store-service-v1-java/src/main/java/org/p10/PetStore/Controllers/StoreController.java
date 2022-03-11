@@ -1,5 +1,6 @@
 package org.p10.PetStore.Controllers;
 
+import com.google.gson.Gson;
 import org.p10.PetStore.Models.InventoryLine;
 import org.p10.PetStore.Models.Order;
 import org.p10.PetStore.Models.Pojo.OrderPojo;
@@ -14,8 +15,10 @@ import java.util.List;
 public class StoreController {
 
     private final StoreRepository storeRepository;
+    private final Gson gson;
 
     public StoreController() {
+        this.gson = new Gson();
         this.storeRepository = new StoreRepository();
     }
 
@@ -24,7 +27,7 @@ public class StoreController {
     @Produces("text/plain")
     public Response getInventory() {
         List<InventoryLine> inventory = storeRepository.getInventory();
-        return Response.ok(inventory).build();
+        return Response.ok(gson.toJson(inventory)).build();
     }
 
     @GET
@@ -32,7 +35,7 @@ public class StoreController {
     @Produces("text/plain")
     public Response getOrder(@PathParam("id") int orderId) {
         Order order = storeRepository.getOrders(orderId);
-        return Response.ok(order).build();
+        return Response.ok(gson.toJson(order)).build();
     }
 
     @POST
@@ -43,7 +46,7 @@ public class StoreController {
                 orderPojo.getQuantity(), orderPojo.getShipDate(),
                 OrderStatus.values()[orderPojo.getStatus()], orderPojo.isComplete());
         order = storeRepository.postOrder(order);
-        return Response.ok(order).build();
+        return Response.ok(gson.toJson(order)).build();
     }
 
     @DELETE
@@ -52,7 +55,7 @@ public class StoreController {
     public Response deleteOrder(@PathParam("id") int orderId) {
         int affectedRows = storeRepository.deleteOrder(orderId);
         if (affectedRows > 0) {
-            return Response.ok().build();
+            return Response.ok(affectedRows).build();
         } else {
             return Response.serverError().build();
         }
