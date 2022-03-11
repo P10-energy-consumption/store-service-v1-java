@@ -1,11 +1,13 @@
 package org.p10.PetStore.Models;
 
+import javax.json.bind.annotation.JsonbDateFormat;
 import java.sql.Date;
 
 public class Order {
     private int id;
     private int petId;
     private int quantity;
+    @JsonbDateFormat(value = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
     private Date shipDate;
     private OrderStatus status;
     private boolean complete;
