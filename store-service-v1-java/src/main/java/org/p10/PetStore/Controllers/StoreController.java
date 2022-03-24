@@ -8,6 +8,7 @@ import org.p10.PetStore.Models.OrderStatus;
 import org.p10.PetStore.Repositories.StoreRepository;
 
 import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.lang.reflect.Type;
 import java.time.Instant;
@@ -45,7 +46,7 @@ public class StoreController {
 
     @GET
     @Path("/store/inventory")
-    @Produces("text/plain")
+    @Produces(MediaType.TEXT_PLAIN)
     public Response getInventory() {
         List<InventoryLine> inventory = storeRepository.getInventory();
         return Response.ok(gson.toJson(inventory)).build();
@@ -53,7 +54,7 @@ public class StoreController {
 
     @GET
     @Path("/store/order/{id}")
-    @Produces("text/plain")
+    @Produces(MediaType.TEXT_PLAIN)
     public Response getOrder(@PathParam("id") int orderId) {
         Order order = storeRepository.getOrders(orderId);
         return Response.ok(gson.toJson(order)).build();
@@ -61,7 +62,7 @@ public class StoreController {
 
     @POST
     @Path("/store/order")
-    @Produces("text/plain")
+    @Produces(MediaType.TEXT_PLAIN)
     public Response placeOrder(OrderPojo orderPojo) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
         LocalDateTime dateTime = LocalDateTime.parse(orderPojo.getShipDate(), formatter);
@@ -74,7 +75,7 @@ public class StoreController {
 
     @DELETE
     @Path("/store/order/{id}")
-    @Produces("text/plain")
+    @Produces(MediaType.TEXT_PLAIN)
     public Response deleteOrder(@PathParam("id") int orderId) {
         int affectedRows = storeRepository.deleteOrder(orderId);
         if (affectedRows > 0) {
