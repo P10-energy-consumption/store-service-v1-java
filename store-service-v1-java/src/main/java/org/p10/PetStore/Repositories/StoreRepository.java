@@ -1,6 +1,9 @@
 package org.p10.PetStore.Repositories;
 
-import org.p10.PetStore.Models.*;
+import org.p10.PetStore.Models.InventoryLine;
+import org.p10.PetStore.Models.Order;
+import org.p10.PetStore.Models.OrderStatus;
+import org.p10.PetStore.Models.PetStatus;
 import org.p10.PetStore.Repositories.Interfaces.IStoreRepositories;
 
 import java.sql.Connection;
